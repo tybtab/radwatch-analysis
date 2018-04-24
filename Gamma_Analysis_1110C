@@ -1,0 +1,58 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+class Gamma_Analysis_1110C(object):
+
+    def __init__(self,
+                ):
+        self.efficiency = []
+        self.livetime = 0
+        self.livetime_bg = 0
+        self.counts = [0, 0, 0, 0, 0]
+        self.background = [0, 0, 0, 0, 0]
+        self.mass = 0
+        self.count_rate = []
+        self.background_count_rate = []
+        self.net_count_rate = []
+        self.net_count_rate_uncertainty = [] #2 sigma
+        self.emission_rate = []
+        self.emission_rate_unc = []
+    
+    def efficiency_calibration(self, coef=[-5.1164, 161.65, -3952.3, 30908], energy=[604.721, 609.320, 661.657, 1460.82, 2614.511):
+        for i in range(len(energy)):
+            self.efficiency.append(np.exp(coef[3] *
+                              (np.log(energy[i])/energy[i])**3 +
+                              coef[2]*(np.log(energy[i])/energy[i])**2 +
+                              coef[1]*(np.log(energy[i])/energy[i]) +
+                              coef[0]))
+    
+    def query(self):
+        self.livetime = input("What is the livetime of the measurement? ")
+        self.livetime = input("What is the livetime of the background measurement? ")
+        self.counts[0] = input("What is the net counts of the Cs134 (604.721 keV) Peak? ")
+        self.counts[1] = input("What is the net counts of the Bi214 (609.320 keV) Peak? ")
+        self.counts[2] = input("What is the net counts of the Cs137 (661.657 keV) Peak? ")
+        self.counts[3] = input("What is the net counts of the Cs134 (1460.82 keV) Peak? ")
+        self.counts[4] = input("What is the net counts of the Cs134 (2614.511 keV) Peak? ")
+        self.background[0] = input("For the background measurement, what is the net counts of the Cs134 (604.721 keV) Peak? ")
+        self.background[1] = input("For the background measurement, what is the net counts of the Bi214 (609.320 keV) Peak? ")
+        self.background[2] = input("For the background measurement, what is the net counts of the Cs137 (661.657 keV) Peak? ")
+        self.background[3] = input("For the background measurement, what is the net counts of the Cs134 (1460.82 keV) Peak? ")
+        self.background[4] = input("For the background measurement, what is the net counts of the Cs134 (2614.511 keV) Peak? ")
+        self.mass = input("What is the mass of the sample in grams? ")
+        
+    def calculate_count_rates(self):
+        for i in range(len(self.counts):
+            self.count_rate.append(self.counts[i]/self.livetime)
+            self.background_count_rate.append(self.background[i]/self.livetime_bg)
+            self.net_count_rate.append(self.count_rate[i]-self.background_count_rate[i])
+            self.net_count_rate_uncertainty.append(2*np.sqrt((self.count_rate[i]/self.livetime)+(self.background_count_rate[i]/self.livetime_bg)))
+    
+    def emission_rate(self):
+        for i in range(len(self.net_count_rate):
+            self.emission_rate(self.net_count_rate[i]/self.efficiency[i])
+            self.emission_rate_unc(self.net_count_rate_uncertainty[i]/self.efficiency[i])
+    
+    
+        
+        
