@@ -46,14 +46,14 @@ class Gamma_Analysis_1110C(object):
         self.mass = input("What is the mass of the sample in grams? ")
         
     def calculate_count_rates(self):
-        for i in range(len(self.counts):
+        for i in range(len(self.counts)):
             self.count_rate.append(self.counts[i]/self.livetime)
             self.background_count_rate.append(self.background[i]/self.livetime_bg)
             self.net_count_rate.append(self.count_rate[i]-self.background_count_rate[i])
             self.net_count_rate_uncertainty.append(2*np.sqrt((self.count_rate[i]/self.livetime)+(self.background_count_rate[i]/self.livetime_bg)))
     
     def calculate_emission_rate(self):
-        for i in range(len(self.net_count_rate):
+        for i in range(len(self.net_count_rate)):
             self.emission_rate.append(self.net_count_rate[i]/self.efficiency[i])
             self.emission_rate_unc.append(self.net_count_rate_uncertainty[i]/self.efficiency[i])
             
@@ -74,6 +74,8 @@ class Gamma_Analysis_1110C(object):
         self.calculate_emission_rate()
         self.calculate_activity()
         self.calculate_specific_activity()
+        print(self.specific_activity)
+        print(self.specific_activity_unc)
         
 
 if __name__ == '__main__':
