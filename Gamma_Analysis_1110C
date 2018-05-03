@@ -17,6 +17,8 @@ class Gamma_Analysis_1110C(object):
         self.net_count_rate_uncertainty = [] #2 sigma
         self.emission_rate = []
         self.emission_rate_unc = []
+        self.activity = []
+        self.activity_unc = []
     
     def efficiency_calibration(self, coef=[-5.1164, 161.65, -3952.3, 30908], energy=[604.721, 609.320, 661.657, 1460.82, 2614.511):
         for i in range(len(energy)):
@@ -50,8 +52,15 @@ class Gamma_Analysis_1110C(object):
     
     def emission_rate(self):
         for i in range(len(self.net_count_rate):
-            self.emission_rate(self.net_count_rate[i]/self.efficiency[i])
-            self.emission_rate_unc(self.net_count_rate_uncertainty[i]/self.efficiency[i])
+            self.emission_rate.append(self.net_count_rate[i]/self.efficiency[i])
+            self.emission_rate_unc.append(self.net_count_rate_uncertainty[i]/self.efficiency[i])
+            
+    def activity(self, branching_ratios = [.9762, .4549, .8510, .1066, .359]):
+        for i in range(len(self.emission_rate):
+            self.activity.append(self.emission_rate[i]/self.branching_ratios[i])
+            self.activity_unc.append(self.emission_rate_unc[i]/self.branching_ratios[i])
+            
+    
     
     
         
