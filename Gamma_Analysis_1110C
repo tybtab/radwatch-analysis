@@ -19,6 +19,8 @@ class Gamma_Analysis_1110C(object):
         self.emission_rate_unc = []
         self.activity = []
         self.activity_unc = []
+        self.specific_activity = []
+        self.specfici_activity_unc = []
     
     def efficiency_calibration(self, coef=[-5.1164, 161.65, -3952.3, 30908], energy=[604.721, 609.320, 661.657, 1460.82, 2614.511):
         for i in range(len(energy)):
@@ -50,16 +52,36 @@ class Gamma_Analysis_1110C(object):
             self.net_count_rate.append(self.count_rate[i]-self.background_count_rate[i])
             self.net_count_rate_uncertainty.append(2*np.sqrt((self.count_rate[i]/self.livetime)+(self.background_count_rate[i]/self.livetime_bg)))
     
-    def emission_rate(self):
+    def calculate_emission_rate(self):
         for i in range(len(self.net_count_rate):
             self.emission_rate.append(self.net_count_rate[i]/self.efficiency[i])
             self.emission_rate_unc.append(self.net_count_rate_uncertainty[i]/self.efficiency[i])
             
-    def activity(self, branching_ratios = [.9762, .4549, .8510, .1066, .359]):
-        for i in range(len(self.emission_rate):
+    def calculate_activity(self, branching_ratios = [.9762, .4549, .8510, .1066, .359]):
+        for i in range(len(self.emission_rate)):
             self.activity.append(self.emission_rate[i]/self.branching_ratios[i])
             self.activity_unc.append(self.emission_rate_unc[i]/self.branching_ratios[i])
             
+    def calculate_specific_activity(self):
+        for i in range(len(self.activity)):
+            self.specific_activity.append(self.activity[i]/self.mass)
+            self.specific_activity_unc.append(self.activity_unc[i]/self.mass)
+            
+    def main(self):
+        self.efficiency_calibration()
+        self.query()
+        self.calculate_count_rates()
+        self.calculate_emission_rate()
+        self.calculate_activity()
+        self.calculate_specific_activity()
+        
+
+if __name__ == '__main__':
+    GA = Gamma_Analysis_1110C()
+    GA.main()
+            
+    
+        
     
     
     
